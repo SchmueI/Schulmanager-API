@@ -43,4 +43,17 @@ def collect(driver):
             output.append(outp)
     
     return output
+
+def getDates(date, driver):
+    # date sollte das Datumsformat YYYY-MM-DD haben.
+    
+    DATES = collect(driver)
+    output = []
+    
+    for entity in DATES:
+        DATE = entity.split(" ",1)[0]
+        if date == DATE:
+            output.append(entity.split(" ",1)[1])
+    
+    return output
     

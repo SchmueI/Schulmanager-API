@@ -19,6 +19,6 @@ password = credentials.passwort()
 
 driver = login.login(driver, username=username, password=password)
 
-caldav.collect(driver)
+caldav.getDates("2023-09-01", driver)
 
 init.close_driver(driver)
