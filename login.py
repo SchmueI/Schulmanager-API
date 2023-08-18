@@ -23,8 +23,11 @@ def login(driver, username, password):
     password_input_elem.send_keys(password + Keys.RETURN)
 
     # Erwarte Login
-    wait = WebDriverWait(driver, 5).until(
-        EC.presence_of_element_located((By.ID, "accountDropdown"))
-    )
+    try:
+        wait = WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.ID, "accountDropdown"))
+        )
+    except:
+        return False, driver
 
-    return driver
+    return True, driver

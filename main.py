@@ -17,10 +17,14 @@ driver = init.init_driver()
 # Wenn Sie diese API nutzen wollen, verwenden Sie Ihre eigenen Zugangsdaten.
 username = credentials.username()
 password = credentials.passwort()
+username = "Falsche Daten."
 
-driver = login.login(driver, username=username, password=password)
+success, driver = login.login(driver, username=username, password=password)
 
-#caldav.getDates("2023-09-01", driver)
-schedules.collect(driver)
+if success:
+     #caldav.getDates("2023-09-01", driver)
+    schedules.getPlan(3, driver)
+else:
+    print ("Kein Zugang möglich.\nDas kann zwei Gründe haben:\n-Deine eingegebenen Daten sind falsch\n-Die API ist überlastet.\nPrüfe die Daten und probiere es erneut!")
 
 init.close_driver(driver)
