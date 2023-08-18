@@ -55,23 +55,75 @@ def collect(driver):
     
     week = [mon, tue, wed, thu, fri, sat, sun]
 
-    inp = []
-    for entity in fri:
-        if not "span" in entity:
-            inp.append("")
-            print ("\n\n\n")
-            print ("-----------------------------------------------------")
-        else:
-            if not ("(" in entity):
-                # Wenn keine Information eingeklammert ist, handelt es sich um eine Regelstunde
-                elems = entity.split("<span>")
-                lesson = elems[1].split("<",1)[0].replace(" ", "").replace("\n", "")
-                teacher = elems[3].split("<",1)[0].replace(" ", "").replace("\n", "")
-                room = elems[4].split("<",1)[0].replace(" ", "").replace("\n", "")
-                print (lesson)
-                print (teacher)
-                print (room)
+    i = 0
+    for day in week:
+        inp = []
+        for entity in day:
+            if not "span" in entity:
+                inp.append("")
+                print ("\n\n\n")
                 print ("-----------------------------------------------------")
             else:
-                print ("\nÄNDERUNG\n")
-                print ("-----------------------------------------------------")
+                if not ("<span style=\"color" in entity):
+                    # Wenn keine Information eingeklammert ist, handelt es sich um eine Regelstunde
+                    elems = entity.split("<span>")
+                    lesson = elems[1].split("<",1)[0].replace(" ", "").replace("\n", "")
+                    teacher = elems[3].split("<",1)[0].replace(" ", "").replace("\n", "")
+                    room = elems[4].split("<",1)[0].replace(" ", "").replace("\n", "")
+                    
+                    if ("fa-info-circle" in entity):
+                        # Wenn eine Information ohne Änderung verfügbar ist, handelt es sich um einen Ausfall
+                        teacher = "("+teacher+")"
+                        lesson = lesson + " → selbst."
+                        room = "("+room+")"
+                else:
+                    # Wenn eine Farbkodierung in der Tabelle vorhanden ist, handelt es sich um eine Änderung
+                    lesson = entity.split("timetable-left\">",1)[1].split("timetable-right",1)[0]
+                    if not "<span style=\"color:" in lesson:
+                        lesson = lesson.split(">")[2].split("<",1)[0].replace(" ", "").replace("\ņ", "")
+                    else:
+                        old = lesson.split("red;\">")[2].split("<",1)[0]
+                        old = old.replace(" ", "")
+                        old = old.replace("\n", "")
+
+                        new = lesson.split("green;\">")[1].split("<",1)[0]
+                        new = new.replace(" ", "")
+                        new = new.replace("\n", "")
+
+                        lesson = old + " → " + new
+
+                    teacher = entity.split("timetable-right\">",1)[1].split("timetable-bottom",1)[0]
+                    if not "<span style=\"color:" in teacher:    
+                        teacher = teacher.split(">")[5].split("<",1)[0].replace(" ", "").replace("\ņ", "")
+                        teacher = teacher.replace("\n", "")
+                    else:
+                        old = teacher.split("red;\">")[2].split("<",1)[0]
+                        old = old.replace(" ", "")
+                        old = old.replace("\n", "")
+
+                        new = teacher.split("green;\">")[1].split("<",1)[0]
+                        new = new.replace(" ", "")
+                        new = new.replace("\n", "")
+
+                        teacher = old + " → " + new
+
+                    room = entity.split("timetable-bottom\">",1)[1]
+                    if not "<span style=\"color:" in room:
+                        room = room.split(">")[5].split("<",1)[0].replace(" ", "").replace("\n", "")
+                    else:
+                        old = room.split("red;\">")[2].split("<",1)[0]
+                        old = old.replace(" ", "")
+                        old = old.replace("\n", "")
+
+                        new = room.split("green;\">")[1].split("<",1)[0]
+                        new = new.replace(" ", "")
+                        new = new.replace("\n", "")
+
+                        room = old + " → " + new
+                
+                inp.append(lesson+"-!-"+teacher+"-!-"+room)
+        
+        week[i] = inp
+        i = i+1
+    
+    return week
