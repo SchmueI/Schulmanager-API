@@ -61,16 +61,29 @@ def collect(driver):
         for entity in day:
             if not "span" in entity:
                 inp.append("")
-                print ("\n\n\n")
-                print ("-----------------------------------------------------")
             else:
-                if not ("<span style=\"color" in entity):
+                if not ("<span style=\"color" in entity and not "Inter" in entity):
                     # Wenn keine Information eingeklammert ist, handelt es sich um eine Regelstunde
+                    """
                     elems = entity.split("<span>")
                     lesson = elems[1].split("<",1)[0].replace(" ", "").replace("\n", "")
                     teacher = elems[3].split("<",1)[0].replace(" ", "").replace("\n", "")
                     room = elems[4].split("<",1)[0].replace(" ", "").replace("\n", "")
-                    
+                    """
+
+
+                    lesson = entity.split("timetable-left\">",1)[1].split("timetable-right",1)[0]
+                    lesson = lesson.split(">")[2].split("<",1)[0].replace(" ", "").replace("\ņ", "")
+                    lesson = lesson.replace("\n", "")
+
+                    teacher = entity.split("timetable-right\">",1)[1].split("timetable-bottom",1)[0]
+                    teacher = teacher.split(">")[5].split("<",1)[0].replace(" ", "").replace("\ņ", "")
+                    teacher = teacher.replace("\n", "")
+
+                    room = entity.split("timetable-bottom\">",1)[1]
+                    room = room.split(">")[3].split("<",1)[0].replace(" ", "").replace("\n", "")
+                    room = room.replace("\n", "")
+
                     if ("fa-info-circle" in entity):
                         # Wenn eine Information ohne Änderung verfügbar ist, handelt es sich um einen Ausfall
                         teacher = "("+teacher+")"
@@ -109,7 +122,7 @@ def collect(driver):
 
                     room = entity.split("timetable-bottom\">",1)[1]
                     if not "<span style=\"color:" in room:
-                        room = room.split(">")[5].split("<",1)[0].replace(" ", "").replace("\n", "")
+                        room = room.split(">")[3].split("<",1)[0].replace(" ", "").replace("\n", "")
                     else:
                         old = room.split("red;\">")[2].split("<",1)[0]
                         old = old.replace(" ", "")
@@ -121,9 +134,16 @@ def collect(driver):
 
                         room = old + " → " + new
                 
-                inp.append(lesson+"-!-"+teacher+"-!-"+room)
+                inp.append(lesson+" "+teacher+" "+room)
         
         week[i] = inp
         i = i+1
     
     return week
+
+def getPlan(day, driver):
+    # day sollte ein Integer von 0 (Montag) bis 6 (Sonntag)
+    # bzw ein Integer von 0 bis 4 sein.
+
+    DATA = collect(driver)
+    return DATA[day]
