@@ -7,6 +7,7 @@
 import init
 import login
 import caldav
+import schedules
 
 import credentials      # This module is not included in the repo since it contains secret credentials
 
@@ -19,6 +20,7 @@ password = credentials.passwort()
 
 driver = login.login(driver, username=username, password=password)
 
-caldav.getDates("2023-09-01", driver)
+#caldav.getDates("2023-09-01", driver)
+schedules.collect(driver)
 
 init.close_driver(driver)
