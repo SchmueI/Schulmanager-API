@@ -141,9 +141,10 @@ def collect(driver):
     
     return week
 
-def getPlan(day, driver):
+def getPlan(day, driver, ALL=False):
     # day sollte ein Integer von 0 (Montag) bis 6 (Sonntag)
     # bzw ein Integer von 0 bis 4 sein.
 
     DATA = collect(driver)
-    return DATA[day]
+    if ALL: return DATA
+    else: return DATA[day]
