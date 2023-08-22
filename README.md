@@ -43,8 +43,31 @@ Dieses Attribut ist erforderlich und bezeichnet den Nutzernamen oder die E-Mail 
 <u>Attribut password</u><br>
 Dieses Attribut ist erforderlich und bezeichnet das Passwort, das zur Anmeldung verwendet werden soll.
 
-<u>Funktion</u>
-Ermöglicht ein Einloggen mit den bekannten Nutzerdaten. Single-Sign-On wird von dieser API nicht unterstützt
+<u>Funktion</u><br>
+Ermöglicht ein Einloggen mit den bekannten Nutzerdaten. Single-Sign-On wird von dieser API nicht unterstützt<br>
+Rückgabewert ist zum einen der Driver mit dem erfolgten Login Versuch sowie ein Boolean, welches den Erfolg des Versuchs angibt.
+
+## schedules.py
+### collect (driver)
+<u>Attribut driver</u><br>
+Dieses Attribut ist erforderlich und bezeichnet den Driver, in welchem der Login durchgeführt werden soll
+
+<u>Funktion</u><br>
+Rückgabewert ist ein Array mit den Vertretungsstunden der Woche.
+
+### getPlan (day, driver, ALL=False)
+<u>Attribut day</u><br>
+Dieses Attribut ist erforderlich und gibt den Tag an, der zurückgegeben werden soll.<br>
+0 = Montag<br>
+-<br>
+6 = Sonntag
+
+<u> Attribut driver</u><br>
+Erforderliches Attribut, welches den Driver bezeichnet der für die Operation verwendet werden soll.
+
+<u>Attribut ALL</u><br>
+Optionales Attribut. Boolean. Standard = False<br>
+Wenn True, wird als Rückgabewert nicht ein Tag sondern eine Woche ausgegeben.
 
 ## caldav.py
 ### collect(driver)
