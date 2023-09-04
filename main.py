@@ -4,11 +4,11 @@
 """
 
 
-import init
-import login
-import caldav
-import schedules
-import dashboard
+import main.init
+import main.login
+import main.caldav
+import main.schedules
+import main.dashboard
 import lsp.iwe as iwe
 
 import credentials      # This module is not included in the repo since it contains secret credentials
