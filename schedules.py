@@ -110,7 +110,7 @@ def collect(driver):
                         teacher = teacher.split(">")[5].split("<",1)[0].replace(" ", "").replace("\ņ", "")
                         teacher = teacher.replace("\n", "")
                     else:
-                        old = teacher.split("red;\">")[2].split("<",1)[0]
+                        old = teacher.split("red;\">")[1].split("<",1)[0]
                         old = old.replace(" ", "")
                         old = old.replace("\n", "")
 
