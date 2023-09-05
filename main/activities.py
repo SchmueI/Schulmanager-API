@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def collect(driver):
+def collect(driver, cal = False):
     # Der Driver sollte sich im Dashboard befinden.
     
     output = []
@@ -21,34 +21,55 @@ def collect(driver):
         html = html.split("<strong ")
 
         for day in html:
-            # Überprüfe, dass in den Tagesdaten eine AG hinterlegt ist.
-            if ("AG " in day):
-                results = []
-                
+            if not cal:
+                # Überprüfe, dass in den Tagesdaten eine AG hinterlegt ist.
+                if ("AG " in day):
+                    results = []
+                    
+                    # Erfasse Datum:
+                    date = day.split("\n")[1][-10:]
+                    results.append(date)
+
+                    # Finde Arbeitsgruppen
+                    events = day.split ("col-2")
+                    events.pop(0)
+                    
+                    for event in events:
+                        # Finde die Uhrzeit der AG
+                        time = event.split ("\n")[1][-5:]
+
+                        # Finde den Namen der AG
+                        entity = event.split("\n")[6]
+                        if "AG " in entity: ag = entity[13:]+" AG"
+
+                        appendance = time + " " + ag
+                        results.append(appendance)
+
+                    output.append(results)
+            else:
                 # Erfasse Datum:
                 date = day.split("\n")[1][-10:]
                 results.append(date)
 
-                # Finde Arbeitsgruppen
-                events = day.split ("col-2")
+                # Finde Event
+                events = day.split("col-2")
                 events.pop(0)
-                
+
                 for event in events:
-                    # Finde die Uhrzeit der AG
+                    # Finde Uhrzeit
                     time = event.split ("\n")[1][-5:]
 
-                    # Finde den Namen der AG
+                    # Schließe AG aus
                     entity = event.split("\n")[6]
-                    if "AG " in entity: ag = entity[13:]+" AG"
-
-                    appendance = time + " " + ag
+                    if not "AG " in entity: ev = entity[10:]
+                    
+                    appendance = time + " " + ev
                     results.append(appendance)
 
-                output.append(results)
     return output
 
 
-def get(driver, ALL = False, date="2023-01-01"):
+def get(driver, ALL = False, date="2023-01-01", cal=False):
     # date sollte das Datumsformat YYYY-MM-DD haben.
     # driver im Dashboard
     # ALL  -> Alle anstehenden Termine werden genannt [[DATE, a, b],[DATE, c, d]]
@@ -59,7 +80,7 @@ def get(driver, ALL = False, date="2023-01-01"):
     date = date.split("-")
     date = date[2]+"."+date[1]+"."+date[0]
 
-    DATES  = collect(driver)
+    DATES  = collect(driver, cal)
     output = []
 
     if not ALL:
