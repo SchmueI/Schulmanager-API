@@ -73,7 +73,6 @@ def collect(driver, cal = False):
                         results.append(appendance)
                     
                     output.append(results)
-
     return output
 
 
@@ -93,12 +92,15 @@ def get(driver, ALL = False, date="2023-01-01", cal=False):
 
     if not ALL:
         for day in DATES:
-            if day[0] == date:
-                # Das zutreffende Datum ist zurückzugeben.
-                output = day
+            try:
+                if day[0] == date:
+                    # Das zutreffende Datum ist zurückzugeben.
+                    output = day
 
-                # Der Datumsstring wird entfernt
-                output.pop(0)
+                    # Der Datumsstring wird entfernt
+                    output.pop(0)
+            except:
+                output = []
     else:
         output = DATES
     
