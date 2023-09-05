@@ -40,13 +40,17 @@ def collect(driver, cal = False):
 
                         # Finde den Namen der AG
                         entity = event.split("\n")[6]
-                        if "AG " in entity: ag = entity[13:]+" AG"
+                        if "AG " in entity:
+                            ag = entity[13:]
 
-                        appendance = time + " " + ag
-                        results.append(appendance)
+                            appendance = time + " " + ag
+                            results.append(appendance)
 
                     output.append(results)
             else:
+
+                results = []
+
                 # Erfasse Datum:
                 date = day.split("\n")[1][-10:]
                 results.append(date)
@@ -61,10 +65,14 @@ def collect(driver, cal = False):
 
                     # Schließe AG aus
                     entity = event.split("\n")[6]
-                    if not "AG " in entity: ev = entity[10:]
+
+                    if not "AG " in entity: 
+                        ev = entity[10:]
                     
-                    appendance = time + " " + ev
-                    results.append(appendance)
+                        appendance = time + " " + ev
+                        results.append(appendance)
+                    
+                    output.append(results)
 
     return output
 
@@ -95,6 +103,6 @@ def get(driver, ALL = False, date="2023-01-01", cal=False):
         output = DATES
     
     if (output == []):
-        output.append("• Keine Arbeitsgruppen eingeplant.")
+        output.append("")
 
     return output
