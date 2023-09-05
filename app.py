@@ -4,18 +4,19 @@
 """
 
 
-import main.init
-import main.login
-import main.caldav
-import main.schedules
-import main.dashboard
+from main import init
+from main import login
+from main import caldav
+from main import schedules
+from main import dashboard
+from main import activities
 import lsp.iwe as iwe
 
 import credentials      # This module is not included in the repo since it contains secret credentials
 
 err = "Kein Zugang möglich.\nDas kann zwei Gründe haben:\n-Deine eingegebenen Daten sind falsch\n-Die API ist überlastet.\nPrüfe die Daten und probiere es erneut!"
 
-driver = init.init_driver(headless=False)
+driver = init.init_driver(headless=True)
 
 # Die Zugangsdaten werden von der Datenbank geladen.
 # Wenn Sie diese API nutzen wollen, verwenden Sie Ihre eigenen Zugangsdaten.
@@ -30,7 +31,7 @@ else:
     print ("DRIVER LOGIN\n" + err)
 
 if success:
-    iwe.register(driver)
+    print(activities.get(driver, ALL = False, date="2023-09-06"))
 else:
     print ("DRIVER DASHBOARD\n" + err)
 
