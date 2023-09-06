@@ -107,8 +107,34 @@ def sendData(driver, mode):
 
     return True, driver
 
+def getState(driver):
+    # Warte bis IWE-Auswahl geladen ist.
+    try:
+        wait = WebDriverWait(driver, 7).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "ng-option"))
+        )
+    except:
+        print ("kann Optionen nicht finden")
+        return False, driver 
+    
+    # Lade Seitenquelltext
+    html = driver.page_source
+    state = ""
+
+    # Suche ausgewählte IWE-Einwahl
+    if ("ng-value-label" in html):
+        state = html.split("ng-value-label\">")[1].split("<",1)[0]
+    elif ("ng-placeholder" in html):
+        state = "Nicht angemeldet"
+    else:
+        return True, "keine Angabe", driver
+
+    return True, state, driver
+
+
 
 def register (driver, mode=1):
+    # driver sollte im Dashboard sein.
     # mode = 1 - Ganzes IWE
     # mode = 2 - Nur Freitag auf Samstag
     # mode = 3 - Nur Samstag auf Sonntag
@@ -121,4 +147,12 @@ def register (driver, mode=1):
     success, driver = sendData(driver, mode)
     return success, driver
     
+def status (driver):
+    # Driver sollte im Dashboard sein.
+
+    success, driver = callRegistration(driver)
+    if not success:
+        return False, driver
     
+    success, state, driver = getState(driver)
+    return success, state, driver

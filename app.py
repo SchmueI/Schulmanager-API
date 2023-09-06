@@ -16,7 +16,7 @@ import credentials      # This module is not included in the repo since it conta
 
 err = "Kein Zugang möglich.\nDas kann zwei Gründe haben:\n-Deine eingegebenen Daten sind falsch\n-Die API ist überlastet.\nPrüfe die Daten und probiere es erneut!"
 
-driver = init.init_driver(headless=True)
+driver = init.init_driver(headless=False)
 
 # Die Zugangsdaten werden von der Datenbank geladen.
 # Wenn Sie diese API nutzen wollen, verwenden Sie Ihre eigenen Zugangsdaten.
@@ -31,7 +31,7 @@ else:
     print ("DRIVER LOGIN\n" + err)
 
 if success:
-    print(activities.get(driver, ALL = False, date="2023-09-06"))
+    print(iwe.status(driver))
 else:
     print ("DRIVER DASHBOARD\n" + err)
 
