@@ -14,9 +14,12 @@ def collect(driver):
     driver.get (url)
 
     # Warte bis der Stundenplan geladen ist
-    wait = WebDriverWait(driver, 5).until(
-        EC.presence_of_element_located((By.TAG_NAME, "class-hour-calendar"))
-    )
+    try:
+        wait = WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.TAG_NAME, "class-hour-calendar"))
+        )
+    except:
+        return []
 
     # Mache Stundenplan ausfindig
     html = driver.page_source
