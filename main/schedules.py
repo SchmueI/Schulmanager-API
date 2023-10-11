@@ -127,15 +127,22 @@ def collect(driver):
                     if not "<span style=\"color:" in room:
                         room = room.split(">")[3].split("<",1)[0].replace(" ", "").replace("\n", "")
                     else:
-                        old = room.split("red;\">")[2].split("<",1)[0]
-                        old = old.replace(" ", "")
-                        old = old.replace("\n", "")
+                        if ("red;\">" in room):
+                            old = room.split("red;\">")[2].split("<",1)[0]
+                            old = old.replace(" ", "")
+                            old = old.replace("\n", "")
 
-                        new = room.split("green;\">")[1].split("<",1)[0]
-                        new = new.replace(" ", "")
-                        new = new.replace("\n", "")
+                            new = room.split("green;\">")[1].split("<",1)[0]
+                            new = new.replace(" ", "")
+                            new = new.replace("\n", "")
 
-                        room = old + " → " + new
+                            room = old + " → " + new
+                        elif ("green;\">" in room):
+                            new = room.split("green;\">")[1].split("<",1)[0]
+                            new = new.replace(" ", "")
+                            new = new.replace("\n", "")
+
+                            room = "<b>"+new+"</b>"
                 
                 inp.append(lesson+" "+teacher+" "+room)
         
