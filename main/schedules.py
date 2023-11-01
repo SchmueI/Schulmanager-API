@@ -65,7 +65,7 @@ def collect(driver):
             if not "span" in entity:
                 inp.append("")
             else:
-                if not ("<span style=\"color" in entity and not "Inter" in entity):
+                                if not ("<span style=\"color" in entity and not "Inter" in entity) and not "lesson-cell cancelled" in entity:
                     # Wenn keine Information eingeklammert ist, handelt es sich um eine Regelstunde
                     """
                     elems = entity.split("<span>")
@@ -92,6 +92,26 @@ def collect(driver):
                         teacher = "("+teacher+")"
                         lesson = lesson + " → selbst."
                         room = "("+room+")"
+                elif ("lesson-cell cancelled" in entity):
+                    
+                    lesson= ""
+                    teacher = ""
+                    room = ""
+
+
+                    lesson = entity.split("lesson-cell cancelled\">", 1)[1]
+                    lesson = lesson.split("timetable-left\">",1)[1].split("timetable-right",1)[0]
+                    lesson = lesson.split("</")[0]
+
+                    bloc = entity.split("lesson-cell cancelled",1)[1].split("</div>",1)[0]
+                    bloc = bloc.split("\n")
+                    teacher = bloc[7].split("<",1)[0]
+                    teacher = teacher[18:]
+
+                    room = bloc[14][22:]
+
+                    lesson = "<del>" + lesson
+                    room = room + "</del>"
                 else:
                     # Wenn eine Farbkodierung in der Tabelle vorhanden ist, handelt es sich um eine Änderung
                     lesson = entity.split("timetable-left\">",1)[1].split("timetable-right",1)[0]
