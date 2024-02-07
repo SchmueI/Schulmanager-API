@@ -4,8 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def login(driver, username, password):
-    driver.get ("https://login.schulmanager-online.de/#/login")
+def insert_data(driver, username, password):
 
     # Warte, bis das LoginFeld erscheint.
     wait = WebDriverWait(driver, 5).until(
@@ -29,5 +28,19 @@ def login(driver, username, password):
         )
     except:
         return False, driver
+
+
+def login(driver, username, password):
+    driver.get ("https://login.schulmanager-online.de/#/login")
+
+    # Versuche automatischen Login
+    try:
+        wait = WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.TAG_NAME, "widgets-container"))
+        )
+    except:
+        # Wenn der Versuch scheitert, gebe Daten ein
+        success, driver = insert_data(driver, username, password)
+        return success, driver
 
     return True, driver
