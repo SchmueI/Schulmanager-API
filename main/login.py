@@ -28,6 +28,7 @@ def insert_data(driver, username, password):
         )
     except:
         return False, driver
+    return True, driver
 
 
 def login(driver, username, password):
