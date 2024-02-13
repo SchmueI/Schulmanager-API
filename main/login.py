@@ -31,7 +31,7 @@ def insert_data(driver, username, password):
     return True, driver
 
 
-def login(driver, username, password):
+def login(driver, username, password, verbose=False):
     driver.get ("https://login.schulmanager-online.de/#/login")
 
     # Versuche automatischen Login
@@ -42,6 +42,12 @@ def login(driver, username, password):
     except:
         # Wenn der Versuch scheitert, gebe Daten ein
         success, driver = insert_data(driver, username, password)
-        return success, driver
+        if verbose: return success, driver, False
+        else: return success, driver
 
-    return True, driver
+    if verbose: return True, driver, True
+    else: return True, driver
+
+
+    # Return Value:
+    # [Bool: Success], driver, [Bool: useCache]
