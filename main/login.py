@@ -4,12 +4,19 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
 def insert_data(driver, username, password):
 
     # Warte, bis das LoginFeld erscheint.
-    wait = WebDriverWait(driver, 5).until(
-        EC.presence_of_element_located((By.ID, 'emailOrUsername'))
-    )
+    # Dieser Versuch wird maximal fünf Mal wiederholt.
+    for i in range (5) :
+        try:
+            wait = WebDriverWait(driver, 15).until(
+                EC.presence_of_element_located((By.ID, 'emailOrUsername'))
+            )
+        except:
+            continue
+        break
 
     # Finde Input-Feld für die Eingabe des Nutzernamens:
     username_input_elem = driver.find_element(By.ID, "emailOrUsername")
@@ -23,7 +30,7 @@ def insert_data(driver, username, password):
 
     # Erwarte Login
     try:
-        wait = WebDriverWait(driver, 5).until(
+        wait = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "accountDropdown"))
         )
     except:
