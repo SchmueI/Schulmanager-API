@@ -6,6 +6,32 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+import datetime
+
+def scrape(row):
+    # Identifiziere Unterrichtsstunden
+    try:
+        lesson = row.split("<strong ")[1]
+        lesson = lesson.split(">")[1].split("<")[0]
+    except:
+        return False
+
+    # Identiiziere Datum anhand von Schlüsselattributen
+    row = row.split(lesson)[1]
+    date = row.split("<td ")[1].split(">")[1].split("\n")[1].split("\n")[0].split(", ")[1].split(",")[0]
+    row = row.split(date)[1]
+
+    # Ggf Jahr anfügen
+    currentDateTime = datetime.datetime.now()
+    year = currentDateTime.date().strftime("%Y")
+    if not str(year) in date:
+        date = date+year
+
+    # Identifiziere Beginn und Ende der Klausur
+    begin = row.split("<br")[1].split(">")[1].split("<")[0].replace(" ", "").replace("\n", "")
+    end = " - " + row.split("- ")[1].split("\n")[0]
+    time = begin + end
+
 def collect(driver):
 
     output = []
@@ -20,19 +46,8 @@ def collect(driver):
     else:
         return False
 
-    # Identifiziere Unterrichtsstunden
-    try:
-        lessons = text.split("<strong ")
-        i = 0
-        for lesson in lessons:
-            lessons[i] = lesson.split(">")[1].split("<")[0]
-            i = i+1
-    except:
-        return False
-
-    # Ggf ist der erste Eintrag eine Leerzeile und muss entfernt werden
-    if "\n" in lessons[0]:
-        lessons.pop(0)
-        
-    print (lessons)
-    print (text)
+    # Identifiziere Spalten
+    rows = text.split("<tr ")
+    rows.pop(0)
+    for row in rows:
+        output.append(scrape(row))
