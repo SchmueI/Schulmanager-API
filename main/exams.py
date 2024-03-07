@@ -8,6 +8,23 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import datetime
 
+def formatted(date, time, lesson):
+    # Erwartete Eingabewerte:
+    # date: DD.MM.YYYY
+    # time: STRING
+    # lesson: String
+    #
+    # Ausgabewert: [str("YYYY-MM-DD"), str(time)+" "+str(lesson)]
+    
+    day = date.split(".")[0]
+    month = date.split(".")[1]
+    year = date.split(".")[2]
+    fDate = year+"-"+month+"-"+day
+
+    entity = str(time)+" "+str(lesson)
+
+    return [fDate, entity]
+
 def scrape(row):
     # Identifiziere Unterrichtsstunden
     try:
@@ -31,6 +48,8 @@ def scrape(row):
     begin = row.split("<br")[1].split(">")[1].split("<")[0].replace(" ", "").replace("\n", "")
     end = " - " + row.split("- ")[1].split("\n")[0]
     time = begin + end
+
+    return formatted(date, time, lesson)
 
 def collect(driver):
 
