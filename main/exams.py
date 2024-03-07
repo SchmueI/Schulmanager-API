@@ -69,4 +69,15 @@ def collect(driver):
     rows = text.split("<tr ")
     rows.pop(0)
     for row in rows:
-        output.append(scrape(row))
+        scraped = scrape(row)
+        if scraped: output.append(scraped)
+    
+    return output
+
+def get(driver, All = True, Date="2023-01-01"):
+    if All: return collect(driver)
+    else:
+        data = collect(driver)
+        for entity in data:
+            if entity[0] == Date: return entity[1]
+        return False
