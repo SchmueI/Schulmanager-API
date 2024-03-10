@@ -55,7 +55,7 @@ def collect(driver):
 
     output = []
     
-    #Lade HTML des Dashboards
+    # Lade HTML des Dashboards
     html = driver.page_source
 
     # Teste, ob Klausurplan vorhanden ist:
