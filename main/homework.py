@@ -31,6 +31,28 @@ def load (driver):
         else:
             return False, driver
 
+def formatted (date, lesson, task):
+    # Erwartete Eingabewerte:
+    # date: DD.MM.YYYY
+    # lesson: STRING
+    # task: String
+    #
+    # Ausgabewert: [str("YYYY-MM-DD"), str(lesson)+": "+str(task)]
+
+def scrape (block):
+    
+    # Identifiziere Datum
+    date = block.split(", ",1)[1].split("\n")[0]
+
+    # Identifiziere Fach
+    lesson = block.split("<h4 ")[1].split(">")[1].split("<")[0]
+
+    # Identifiziere Aufgabe
+    task = block.split("<span ")[1].split(">")[1].split("<")[0]
+
+    return formatted (date, lesson, task)
+
+
 def collect (driver):
 
     output = []
@@ -41,7 +63,18 @@ def collect (driver):
     if not success: return success
 
     html = driver.page_source
-        
+
+    # Identifiziere Blöcke
+    blocks = html.split("tile\">")
+    blocks.pop(0)
+    blocks.pop(len(blocks)-1)
+
+    # Scrape identifizierte Blöcke
+    for block in blocks:
+        scraped = scrape(block)
+        if scraped: output.append(scraped)
+
+    return output
     
 
 def get (driver, All = True, Date="2023-01-01"):
