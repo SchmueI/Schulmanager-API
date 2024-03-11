@@ -39,6 +39,15 @@ def formatted (date, lesson, task):
     #
     # Ausgabewert: [str("YYYY-MM-DD"), str(lesson)+": "+str(task)]
 
+    day = date.split(".")[0]
+    month = date.split(".")[1]
+    year = date.split(".")[2]
+    fDate = year+"-"+month+"-"+day
+
+    entity = str(lesson)+": "+str(task)
+
+    return [fDate, entity]
+
 def scrape (block):
     
     # Identifiziere Datum
