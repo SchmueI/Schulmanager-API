@@ -68,6 +68,8 @@ def collect(driver):
     # Identifiziere Spalten
     rows = text.split("<tr ")
     rows.pop(0)
+
+    # Scrape identifizierte Spalten
     for row in rows:
         scraped = scrape(row)
         if scraped: output.append(scraped)
