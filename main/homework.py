@@ -31,7 +31,7 @@ def load (driver):
         else:
             return False, driver
 
-def formatted (date, lesson, task):
+def formatted (date, lessons, tasks):
     # Erwartete Eingabewerte:
     # date: DD.MM.YYYY
     # lesson: STRING
@@ -39,14 +39,22 @@ def formatted (date, lesson, task):
     #
     # Ausgabewert: [str("YYYY-MM-DD"), str(lesson)+": "+str(task)]
 
+    outp = []
+
     day = date.split(".")[0]
     month = date.split(".")[1]
     year = date.split(".")[2]
     fDate = year+"-"+month+"-"+day
+    outp.append(fDate)
 
-    entity = str(lesson)+": "+str(task)
+    iterations = len(lessons)
 
-    return [fDate, entity]
+    entity = ""
+    for i in range (iterations):
+        entity = lessons[i] + ": " + tasks[i]
+        outp.append(entity)
+
+    return outp
 
 def scrape (block):
     
@@ -54,12 +62,24 @@ def scrape (block):
     date = block.split(", ",1)[1].split("\n")[0]
 
     # Identifiziere Fach
-    lesson = block.split("<h4 ")[1].split(">")[1].split("<")[0]
+    lessons = block.split("<h4 ")
+    lessons.pop(0)
+    i = 0
+    for lesson in lessons:
+        lesson = lesson.split(">")[1].split("<")[0]
+        lessons[i] = lesson
+        i = i+1
 
     # Identifiziere Aufgabe
-    task = block.split("<span ")[1].split(">")[1].split("<")[0]
+    tasks = block.split("<span ")
+    tasks.pop(0)
+    i = 0
+    for task in tasks:
+        task = task.split(">")[1].split("<")[0]
+        tasks[i] = task
+        i = i+1
 
-    return formatted (date, lesson, task)
+    return formatted (date, lessons, tasks)
 
 
 def collect (driver):
@@ -93,5 +113,5 @@ def get (driver, All = True, Date="2023-01-01"):
         if not data: return data
         for entity in data:
             if entity[0] == Date:
-                entity.pop[0]
+                entity.pop(0)
                 return entity
