@@ -41,13 +41,16 @@ def formatted (date, lessons, tasks):
 
     outp = []
 
-    day = date.split(".")[0]
-    month = date.split(".")[1]
-    year = date.split(".")[2]
-    fDate = year+"-"+month+"-"+day
-    outp.append(fDate)
+    try:
+        day = date.split(".")[0]
+        month = date.split(".")[1]
+        year = date.split(".")[2]
+        
+        fDate = year+"-"+month+"-"+day
+        outp.append(fDate)
 
-    iterations = len(lessons)
+        iterations = len(lessons)
+    except: return False
 
     entity = ""
     for i in range (iterations):
@@ -59,25 +62,34 @@ def formatted (date, lessons, tasks):
 def scrape (block):
     
     # Identifiziere Datum
-    date = block.split(", ",1)[1].split("\n")[0]
+    try:    
+        date = block.split(", ",1)[1].split("\n")[0]
+    except:
+        return False
 
     # Identifiziere Fach
-    lessons = block.split("<h4 ")
-    lessons.pop(0)
-    i = 0
-    for lesson in lessons:
-        lesson = lesson.split(">")[1].split("<")[0]
-        lessons[i] = lesson
-        i = i+1
+    try:
+        lessons = block.split("<h4 ")
+        lessons.pop(0)
+        i = 0
+        for lesson in lessons:
+            lesson = lesson.split(">")[1].split("<")[0]
+            lessons[i] = lesson
+            i = i+1
+    except:
+        return False
 
     # Identifiziere Aufgabe
-    tasks = block.split("<span ")
-    tasks.pop(0)
-    i = 0
-    for task in tasks:
-        task = task.split(">")[1].split("<")[0]
-        tasks[i] = task
-        i = i+1
+    try:
+        tasks = block.split("<span ")
+        tasks.pop(0)
+        i = 0
+        for task in tasks:
+            task = task.split(">")[1].split("<")[0]
+            tasks[i] = task
+            i = i+1
+    except:
+        return False
 
     return formatted (date, lessons, tasks)
 

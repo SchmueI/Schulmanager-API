@@ -34,20 +34,29 @@ def scrape(row):
         return False
 
     # Identiiziere Datum anhand von Schlüsselattributen
-    row = row.split(lesson)[1]
-    date = row.split("<td ")[1].split(">")[1].split("\n")[1].split("\n")[0].split(", ")[1].split(",")[0]
-    row = row.split(date)[1]
+    try:
+        row = row.split(lesson)[1]
+        date = row.split("<td ")[1].split(">")[1].split("\n")[1].split("\n")[0].split(", ")[1].split(",")[0]
+        row = row.split(date)[1]
+    except:
+        return False
 
     # Ggf Jahr anfügen
-    currentDateTime = datetime.datetime.now()
-    year = currentDateTime.date().strftime("%Y")
-    if not str(year) in date:
-        date = date+year
+    try:
+        currentDateTime = datetime.datetime.now()
+        year = currentDateTime.date().strftime("%Y")
+        if not str(year) in date:
+            date = date+year
+    except:
+        return False
 
     # Identifiziere Beginn und Ende der Klausur
-    begin = row.split("<br")[1].split(">")[1].split("<")[0].replace(" ", "").replace("\n", "")
-    end = " - " + row.split("- ")[1].split("\n")[0]
-    time = begin + end
+    try:
+        begin = row.split("<br")[1].split(">")[1].split("<")[0].replace(" ", "").replace("\n", "")
+        end = " - " + row.split("- ")[1].split("\n")[0]
+        time = begin + end
+    except:
+        return False
 
     return formatted(date, time, lesson)
 
