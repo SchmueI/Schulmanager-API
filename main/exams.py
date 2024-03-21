@@ -74,11 +74,11 @@ def collect(driver):
     else:
         return False
 
-    # Identifiziere Spalten
+    # Identifiziere Zeilen
     rows = text.split("<tr ")
     rows.pop(0)
 
-    # Scrape identifizierte Spalten
+    # Scrape identifizierte Zeilen
     for row in rows:
         scraped = scrape(row)
         if scraped: output.append(scraped)
