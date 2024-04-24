@@ -22,7 +22,7 @@ def init_driver(headless=True, PATH="/usr/bin/chromedriver", userID = "0"):
     options.add_argument("user-agent=Schulmanager-Bot-API")
     options.add_argument("user-data-dir=data/"+userID)
 
-    driver = webdriver.Chrome(options=options, executable_path=PATH)
+    driver = webdriver.Chrome(options=options)
 
     return driver
 
