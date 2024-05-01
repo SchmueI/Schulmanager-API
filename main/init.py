@@ -16,7 +16,7 @@ def init_driver(headless=True, PATH="/usr/bin/chromedriver", userID = "0"):
 
     # Webdriver Einrichten
     options = Options()
-    options.headless = headless
+    if headless: options.add_argument("--headless=new")
     options.add_argument("--window-size=1920,1080")
     options.add_argument("start-maximized")
     options.add_argument("user-agent=Schulmanager-Bot-API")
