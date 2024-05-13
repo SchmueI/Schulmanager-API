@@ -108,7 +108,12 @@ def collect (driver):
     # Identifiziere Blöcke
     blocks = html.split("tile\">")
     blocks.pop(0)
-    blocks.pop(len(blocks)-1)
+    try:
+        blocks.pop(len(blocks)-1)
+    except:
+        # Wenn keine Hausaufgaben vergeben wurden, scheitert diese Operation.
+        # In dem Fall gebe False zurück.
+        return False
 
     # Scrape identifizierte Blöcke
     for block in blocks:
