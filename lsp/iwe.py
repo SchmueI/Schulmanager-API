@@ -66,7 +66,7 @@ def sendData(driver, mode):
         print ("kann Optionen nicht finden")
         return False, driver 
 
-    search = driver.find_elements_by_tag_name("input")[1]
+    search = driver.find_elements(By.TAG_NAME("input"))[1]
     
 
     if mode == 1: search.send_keys("Ges"    + Keys.DOWN + Keys.RETURN + Keys.TAB + Keys.RETURN)
@@ -93,7 +93,7 @@ def sendData(driver, mode):
             return False, driver 
         
         # Finde Bestätigungs Knopf
-        cancel = driver.find_elements_by_class_name("btn-danger")
+        cancel = driver.find_elements(By.CLASS_NAME("btn-danger"))
 
         for element in cancel:
             print (element.text)
