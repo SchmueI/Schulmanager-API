@@ -6,11 +6,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def collect(driver):
+def collect(driver, startDate=""):
     output = []
 
     # Rufe Stundenplan auf
-    url = "https://login.schulmanager-online.de/#/modules/schedules/view//"
+    url = "https://login.schulmanager-online.de/#/modules/schedules/view//"+startDate
     driver.get (url)
 
     # Warte bis der Stundenplan geladen ist
@@ -172,10 +172,10 @@ def collect(driver):
     
     return week
 
-def getPlan(day, driver, ALL=False):
+def getPlan(day, driver, ALL=False, startDate=""):
     # day sollte ein Integer von 0 (Montag) bis 6 (Sonntag)
     # bzw ein Integer von 0 bis 4 sein.
 
-    DATA = collect(driver)
+    DATA = collect(driver, startDate)
     if ALL: return DATA
     else: return DATA[day]
