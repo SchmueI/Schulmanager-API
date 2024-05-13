@@ -73,7 +73,6 @@ def collect(driver, startDate=""):
                     teacher = elems[3].split("<",1)[0].replace(" ", "").replace("\n", "")
                     room = elems[4].split("<",1)[0].replace(" ", "").replace("\n", "")
                     """
-                    
 
 
                     lesson = entity.split("timetable-left\">",1)[1].split("timetable-right",1)[0]
@@ -145,6 +144,7 @@ def collect(driver, startDate=""):
                         teacher = old + " → " + new
 
                     room = entity.split("timetable-bottom\">",1)[1]
+                    if "timetable-bottom\">" in room: room = room.split("timetable-bottom\">",1)[1]
                     if not "<span style=\"color:" in room:
                         room = room.split(">")[3].split("<",1)[0].replace(" ", "").replace("\n", "")
                     else:
