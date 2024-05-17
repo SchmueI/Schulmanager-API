@@ -152,7 +152,7 @@ def status (driver):
 
     success, driver = callRegistration(driver)
     if not success:
-        return False, driver
+        return False, "Kein IWE Gefunden.", driver
     
     success, state, driver = getState(driver)
     return success, state, driver
