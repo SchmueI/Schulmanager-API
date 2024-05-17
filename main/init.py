@@ -34,7 +34,14 @@ def init_driver(headless=True, PATH="/usr/bin/chromedriver", userID = "0"):
         }
     )
 
-    driver = webdriver.Chrome(options=options)
+    try:
+        driver = webdriver.Chrome(options=options)
+    except:
+        try:
+            shutil.rmtree("data/"+userID)
+            driver = webdriver.Chrome(options=options)
+        except:
+            driver = webdriver.Chrome(options=options)
 
     return driver
 
