@@ -19,7 +19,7 @@ def init_driver(headless=True, PATH="/usr/bin/chromedriver", userID = "0"):
     if headless: options.add_argument("--headless=new")
     options.add_argument("--window-size=1920,1080")
     options.add_argument("start-maximized")
-    options.add_argument("user-agent=Schulmanager-Bot-API")
+    options.add_argument("user-agent=Schulmanager-API-PUBLIC-GIT-UNDEFINED")
     options.add_argument("user-data-dir=data/"+userID)
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--no-sandbox")
