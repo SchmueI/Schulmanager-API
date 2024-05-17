@@ -17,6 +17,16 @@ Anschließend kann dieses Projekt mittels
 `git clone https://www.github.com/schmuei/Schulmanager-API`
 geklont und ausgeführt werden.
 
+## Verwendungshinweis
+Die Verwendung dieser Software erfolgt ausschließlich auf eigenes Risiko. Ich empfehle dringend vor der Inbetriebnahme einer eigenen Software auf Grundlage dieser API mit dem Team von Schulmanager-Online abzustimmen.
+In persönlicher Korrespondenz zeigten sich die Betreiber stets freundlich und entgegenkommend - einen Umgangston den es seitens der Anwender dieser Software zu erhalten gilt.
+
+Es ist durchaus wahrscheinlich, dass zum Betreib einer Software auf Grundlage dieser API gefordert wird, einen user-agent zu wählen, der eindeutig auf den Verwendungszweck hinweist. Dies kann durch bearbeitung der init.py vorgenommen werden.
+
+> [!WARNING]
+> Der Exzessive Aufruf von Schulmanager-Online Daten mithilfe dieser API kann schwerwiegende Folgen haben. Bitte vor der Verwendung Kontakt mit der Schulmanager Online GmbH aufnehmen!
+
+
 ## Beispiele
 
 ### Abrufen des Stunden- und Vertretungsplans
