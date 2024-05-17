@@ -21,6 +21,9 @@ def init_driver(headless=True, PATH="/usr/bin/chromedriver", userID = "0"):
     options.add_argument("start-maximized")
     options.add_argument("user-agent=Schulmanager-Bot-API")
     options.add_argument("user-data-dir=data/"+userID)
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-domain-reliability")
     options.add_experimental_option(
         "prefs", {
             "profile.managed_default_content_settings.images": 2,
