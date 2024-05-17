@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from datetime import datetime
 
 
 def insert_data(driver, username, password):
@@ -15,7 +16,8 @@ def insert_data(driver, username, password):
                 EC.presence_of_element_located((By.ID, 'emailOrUsername'))
             )
         except:
-            continue
+            init.close_driver(driver)
+            driver = init.init_driver(headless=True, userID = datetime.strftime(datetime.now(), "O: %Y-%m-%d_%H-%M"))
         break
 
     # Finde Input-Feld für die Eingabe des Nutzernamens:
@@ -43,7 +45,7 @@ def login(driver, username, password, verbose=False):
 
     # Versuche automatischen Login
     try:
-        wait = WebDriverWait(driver, 5).until(
+        wait = WebDriverWait(driver, 7).until(
             EC.presence_of_element_located((By.TAG_NAME, "widgets-container"))
         )
     except:
