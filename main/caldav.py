@@ -33,6 +33,14 @@ def collect(driver, url = "https://login.schulmanager-online.de/#/modules/calend
         if ("<!--" in entity): 
             # Jedes Datum mit Eintrag ausfindig machen
             date = entity.split("\"", 1)[0]
+
+            time = "00:00"
+
+            if "fc-event-time" in entity:
+                time = entity.split("class=\"fc-event-time\">",1)[1]
+                time = time.split("<", 1)[0]
+                time = time.replace(" " , "")
+                time = time.replace("\n", "")
             
             # Titel des entsprechenden Datums extrahieren
             title = entity.split("class=\"fc-event-title fc-sticky\">",1)[1]
@@ -40,7 +48,7 @@ def collect(driver, url = "https://login.schulmanager-online.de/#/modules/calend
             title = title.split("\n")[1]
             title = title[6:]
             
-            outp = date+" "+title
+            outp = date+ " " + time + " "+title
 
             output.append(outp)
     
