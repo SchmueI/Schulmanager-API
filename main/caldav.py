@@ -6,12 +6,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def collect(driver):
+def collect(driver, url = "https://login.schulmanager-online.de/#/modules/calendar/overview"):
     
     output = []
 
     # Rufe Kalender auf
-    url = "https://login.schulmanager-online.de/#/modules/calendar/overview"
     driver.get (url)
 
     # Warte bis Kalender geladen ist
